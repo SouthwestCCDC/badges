@@ -1,5 +1,8 @@
 include <BOSL2/std.scad>
 
+EXPORT="all";
+TEXT=["SWCCDC", "2024", "", "BLACK", "TEAM"];
+
 BADGE_T=4;
 
 PIP_X=12;
@@ -10,16 +13,18 @@ PIP_RECESS=1.5;
 PIP_DX=3;
 PIP_DY=6;
 
-PIP_COLS = 3;
-PIP_ROWS = 2;
+PIP_COLS = 2;
+PIP_ROWS = 1;
 
 LAN_W = 14;
 LAN_H = 3;
 LAN_T = 2.5;
 
-ID_CLIP_L=10;
+ID_CLIP_L=12;
 ID_CLIP_W=10;
 //ID_CLIP_T=2;
+
+TXT_Z=0.5;
 
 SIDE_ON_BED=BOTTOM;
 SIDE_IN_AIR = (SIDE_ON_BED==BOTTOM)? TOP : BOTTOM;
@@ -30,9 +35,17 @@ module pips() {
   }
 }
 
+module txt() {
+  for (t = [0 : len(TEXT)]) {
+    fwd(t*6) text3d(TEXT[t], font="Franklin Gothic Heavy:style=Regular", size=5, h=TXT_Z, atype="ycenter", anchor=CENTER+TOP);
+  }
+}
+
 module badge() {
-  diff() {
-    color("gray") cuboid([PIP_COLS*(PIP_X+PIP_DX)+PIP_DX, PIP_ROWS*(PIP_Y+PIP_DY)+PIP_DY, BADGE_T], rounding=2, edges=[FRONT+LEFT, BACK+LEFT, BACK+RIGHT, FRONT+RIGHT], anchor=TOP+BACK+LEFT) {
+  k = EXPORT=="badge"? "" : "txt";
+  r = EXPORT=="text"? "remove badge" : "txt remove";
+  diff(r, k) {
+    recolor("gray") tag("badge") cuboid([PIP_COLS*(PIP_X+PIP_DX)+PIP_DX, PIP_ROWS*(PIP_Y+PIP_DY)+PIP_DY, BADGE_T], rounding=2, edges=[FRONT+LEFT, BACK+LEFT, BACK+RIGHT, FRONT+RIGHT], anchor=TOP+BACK+LEFT) {
       tag("remove") position(TOP+BACK+LEFT)  pips();
       
       // Lanyard clip
@@ -43,12 +56,15 @@ module badge() {
       position(FRONT+SIDE_IN_AIR) cuboid([ID_CLIP_W, ID_CLIP_L, BADGE_T/3], anchor=BACK+SIDE_IN_AIR)
         position(SIDE_ON_BED+FRONT) cuboid([ID_CLIP_W, BADGE_T/2, 2*BADGE_T/3], anchor=SIDE_IN_AIR+FRONT)
           position(BACK+SIDE_ON_BED) prismoid([ID_CLIP_W, ID_CLIP_L/4], [ID_CLIP_W, BADGE_T/3], BADGE_T/3, anchor=FRONT+SIDE_ON_BED, shift=[0,(BADGE_T/3 - ID_CLIP_L/4)/2]);
-      //cuboid([ID_CLIP_W, ID_CLIP_L/4, BADGE_T/3]);
-          //position(BACK+SIDE_ON_BED) cuboid([ID_CLIP_W, ID_CLIP_L/4, BADGE_T/3], anchor=FRONT+SIDE_ON_BED);
       position(FRONT+SIDE_ON_BED) prismoid([ID_CLIP_W, BADGE_T/3], [ID_CLIP_W, ID_CLIP_L/4], BADGE_T/3, anchor=BACK+SIDE_ON_BED, shift=[0,(BADGE_T/3 - ID_CLIP_L/4)/2]);
+      
+      // Text?
+      tag("txt") recolor("black") position(BOTTOM+BACK) fwd(4) orient(DOWN) txt();
     }
   }
 }
 
-badge();
-pips();
+if (EXPORT == "all" || EXPORT == "badge" || EXPORT == "text")
+  badge();
+if (EXPORT == "all" || EXPORT == "pips")
+  pips();
