@@ -9,8 +9,9 @@ import click
 @click.option('--name', '-n', required=True, default="badge-rc4", type=str, prompt="Name of badge")
 @click.option('--output-dir', '-o', type=click.Path(file_okay=False, dir_okay=True, resolve_path=True), default='output/')
 @click.option('--pip-colors', '-p', type=str, default='blue', help="Comma-separated row-first list of color names", prompt="Color list")
+@click.option('--font-size', '-Fs', type=float)
 @click.argument('text-lines', nargs=-1, type=str)
-def make_stls(rows, cols, name, output_dir, pip_colors, text_lines):
+def make_stls(rows, cols, name, output_dir, pip_colors, font_size, text_lines):
      texts=','.join(f'"{line}"' for line in text_lines)
 
      pip_color_list = ','.join(f'"{color}"' for color in map(str.strip, pip_colors.split(',')))
@@ -32,11 +33,18 @@ def make_stls(rows, cols, name, output_dir, pip_colors, text_lines):
                '-D', f'PIP_COLS={cols}',
                '-D', f'PIP_ROWS={rows}',
                '-D', f'EXPORT="{export_type}"',
+               '-D', f'PIP_RECESS=0',
                '-o', out_path,
-               'badge.scad'
           ]
 
-          # print(' '.join(cmd))
+          if font_size:
+               cmd += [
+                    '-D', f'TXT_SIZE={font_size}'
+               ]
+          
+          cmd += ['badge.scad']
+
+          print(' '.join(cmd))
           subprocess.run(cmd)
 
 if __name__ == '__main__':

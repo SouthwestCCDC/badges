@@ -8,7 +8,7 @@ BADGE_T=4;
 PIP_X=12;
 PIP_Y=19;
 PIP_Z=3;
-PIP_RECESS=1.5;
+PIP_RECESS=0;
 
 PIP_DX=3;
 PIP_DY=6;
@@ -25,6 +25,7 @@ ID_CLIP_W=10;
 //ID_CLIP_T=2;
 
 TXT_Z=0.5;
+TXT_SIZE=4.75;
 
 SIDE_ON_BED=BOTTOM;
 SIDE_IN_AIR = (SIDE_ON_BED==BOTTOM)? TOP : BOTTOM;
@@ -41,14 +42,14 @@ module pips() {
       
       
       // Draw:
-      down(PIP_RECESS) right(PIP_DX + (PIP_X+PIP_DX)*i) fwd(PIP_DY + (PIP_Y+PIP_DY)*j)  recolor(c) cuboid([PIP_X,PIP_Y,PIP_Z], rounding=1, edges=[FRONT+LEFT, BACK+LEFT, BACK+RIGHT, FRONT+RIGHT], anchor=BOTTOM+BACK+LEFT, $fn=128);
+      down(PIP_RECESS) right(PIP_DX + (PIP_X+PIP_DX)*i) fwd(PIP_DY + (PIP_Y+PIP_DY)*j)  recolor(c) cuboid([PIP_X,PIP_Y,PIP_Z+PIP_RECESS], rounding=1, edges=[FRONT+LEFT, BACK+LEFT, BACK+RIGHT, FRONT+RIGHT], anchor=BOTTOM+BACK+LEFT, $fn=128);
   }
 }
 
 module txt() {
   LINE_SPACE=6;
   for (t = [0 : len(TEXT)-1]) {
-    back(LINE_SPACE*(len(TEXT)-1)/2) fwd(t*LINE_SPACE) text3d(TEXT[t], font="Arial Black:style=Regular", size=4.75, h=TXT_Z, atype="ycenter", anchor=CENTER+TOP);
+    back(LINE_SPACE*(len(TEXT)-1)/2) fwd(t*LINE_SPACE) text3d(TEXT[t], font="Arial Black:style=Regular", size=TXT_SIZE, h=TXT_Z, atype="ycenter", anchor=CENTER+TOP);
   }
 }
 
