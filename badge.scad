@@ -35,7 +35,7 @@ module pips() {
   for (i = [0:PIP_COLS-1]) for (j = [0:PIP_ROWS-1]) {
       
       // Select color:
-      index = i*PIP_ROWS + j;
+      index = j*PIP_COLS + i;
       lengt = len(PIP_COLORS);
       c = index >= lengt ? PIP_COLORS[lengt-1] : PIP_COLORS[index];
       
