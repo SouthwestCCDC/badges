@@ -29,9 +29,19 @@ TXT_Z=0.5;
 SIDE_ON_BED=BOTTOM;
 SIDE_IN_AIR = (SIDE_ON_BED==BOTTOM)? TOP : BOTTOM;
 
+PIP_COLORS=["blue",];
+
 module pips() {
   for (i = [0:PIP_COLS-1]) for (j = [0:PIP_ROWS-1]) {
-      down(PIP_RECESS) right(PIP_DX + (PIP_X+PIP_DX)*i) fwd(PIP_DY + (PIP_Y+PIP_DY)*j)  color("blue") cuboid([PIP_X,PIP_Y,PIP_Z], rounding=1, edges=[FRONT+LEFT, BACK+LEFT, BACK+RIGHT, FRONT+RIGHT], anchor=BOTTOM+BACK+LEFT, $fn=128);
+      
+      // Select color:
+      index = i*PIP_ROWS + j;
+      lengt = len(PIP_COLORS);
+      c = index >= lengt ? PIP_COLORS[lengt-1] : PIP_COLORS[index];
+      
+      
+      // Draw:
+      down(PIP_RECESS) right(PIP_DX + (PIP_X+PIP_DX)*i) fwd(PIP_DY + (PIP_Y+PIP_DY)*j)  recolor(c) cuboid([PIP_X,PIP_Y,PIP_Z], rounding=1, edges=[FRONT+LEFT, BACK+LEFT, BACK+RIGHT, FRONT+RIGHT], anchor=BOTTOM+BACK+LEFT, $fn=128);
   }
 }
 
