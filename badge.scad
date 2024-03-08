@@ -37,7 +37,7 @@ module pips() {
 
 module txt() {
   for (t = [0 : len(TEXT)]) {
-    fwd(t*6) text3d(TEXT[t], font="Franklin Gothic Heavy:style=Regular", size=5, h=TXT_Z, atype="ycenter", anchor=CENTER+TOP);
+    fwd(t*6) text3d(TEXT[t], font="Arial Black:style=Regular", size=4.75, h=TXT_Z, atype="ycenter", anchor=CENTER+TOP);
   }
 }
 
