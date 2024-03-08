@@ -1,7 +1,7 @@
 include <BOSL2/std.scad>
 
 EXPORT="all";
-TEXT=["SWCCDC", "2024", "", "BLACK", "TEAM"];
+TEXT=["SWCCDC", "2024"];
 
 BADGE_T=4;
 
@@ -36,8 +36,9 @@ module pips() {
 }
 
 module txt() {
-  for (t = [0 : len(TEXT)]) {
-    fwd(t*6) text3d(TEXT[t], font="Arial Black:style=Regular", size=4.75, h=TXT_Z, atype="ycenter", anchor=CENTER+TOP);
+  LINE_SPACE=6;
+  for (t = [0 : len(TEXT)-1]) {
+    back(LINE_SPACE*(len(TEXT)-1)/2) fwd(t*LINE_SPACE) text3d(TEXT[t], font="Arial Black:style=Regular", size=4.75, h=TXT_Z, atype="ycenter", anchor=CENTER+TOP);
   }
 }
 
@@ -59,7 +60,7 @@ module badge() {
       position(FRONT+SIDE_ON_BED) prismoid([ID_CLIP_W, BADGE_T/3], [ID_CLIP_W, ID_CLIP_L/4], BADGE_T/3, anchor=BACK+SIDE_ON_BED, shift=[0,(BADGE_T/3 - ID_CLIP_L/4)/2]);
       
       // Text?
-      tag("txt") recolor("black") position(BOTTOM+BACK) fwd(4) orient(DOWN) txt();
+      tag("txt") recolor("black") position(BOTTOM+CENTER) orient(DOWN) txt();
     }
   }
 }
