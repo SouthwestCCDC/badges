@@ -1,27 +1,43 @@
 import subprocess
 import os.path
+import pathlib
 import click
 
 @click.command()
 @click.option('--rows', '-r', required=True, type=int, prompt="Rows of pips")
 @click.option('--cols', '-c', required=True, type=int, prompt="Columns of pips")
 @click.option('--name', '-n', required=True, default="badge-rc4", type=str, prompt="Name of badge")
-@click.option('--dir', '-d', type=click.Path(exists=True, file_okay=False, dir_okay=True, resolve_path=True), default='output/')
+@click.option('--output-dir', '-o', type=click.Path(file_okay=False, dir_okay=True, resolve_path=True), default='output/')
+@click.option('--pip-colors', '-p', type=str, default='blue', help="Comma-separated row-first list of color names", prompt="Color list")
 @click.argument('text-lines', nargs=-1, type=str)
-def make_stls(rows, cols, name, text_lines, dir):
+def make_stls(rows, cols, name, output_dir, pip_colors, text_lines):
      texts=','.join(f'"{line}"' for line in text_lines)
-     for export_type in ('badge', 'pips', 'text'):
-          out_file = f'{name}-{cols}x{rows}-{export_type}.stl'
-          out_path = os.path.join(dir, out_file)
-          subprocess.run([
+
+     pip_color_list = ','.join(f'"{color}"' for color in map(str.strip, pip_colors.split(',')))
+
+     # Make sure the directory exists.
+     pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+
+     for export_type in ('badge', 'pips', 'text', 'all'):
+          out_file = f'{name}-{cols}x{rows}-{export_type}'
+          if export_type == 'all':
+               out_file += '.png'
+          else:
+               out_file += '.stl'
+          out_path = os.path.join(output_dir, out_file)
+          cmd = [
                'openscad',
                '-D', f'TEXT=[{texts}]',
+               '-D', f'PIP_COLORS=[{pip_color_list}]',
                '-D', f'PIP_COLS={cols}',
                '-D', f'PIP_ROWS={rows}',
                '-D', f'EXPORT="{export_type}"',
                '-o', out_path,
                'badge.scad'
-          ])
+          ]
+
+          # print(' '.join(cmd))
+          subprocess.run(cmd)
 
 if __name__ == '__main__':
      make_stls()
