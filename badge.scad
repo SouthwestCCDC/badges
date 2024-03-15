@@ -66,7 +66,7 @@ module badge_top() {
 }
 
 module txt() {
-  LINE_SPACE=6;
+  LINE_SPACE=TXT_SIZE+1.25;
   for (t = [0 : len(TEXT)-1]) {
     back(LINE_SPACE*(len(TEXT)-1)/2) fwd(t*LINE_SPACE) text3d(TEXT[t], font="Arial Black:style=Regular", size=TXT_SIZE, h=TXT_Z, atype="ycenter", anchor=CENTER+TOP);
   }
