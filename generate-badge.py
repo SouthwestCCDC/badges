@@ -10,8 +10,9 @@ import click
 @click.option('--output-dir', '-o', type=click.Path(file_okay=False, dir_okay=True, resolve_path=True), default='output/')
 @click.option('--pip-colors', '-p', type=str, default='blue', help="Comma-separated row-first list of color names", prompt="Color list")
 @click.option('--font-size', '-Fs', type=float)
+@click.option('--rebel/--empire', default=False, help="Sets which faction this badge is.")
 @click.argument('text-lines', nargs=-1, type=str)
-def make_stls(rows, cols, name, output_dir, pip_colors, font_size, text_lines):
+def make_stls(rows, cols, name, output_dir, pip_colors, font_size, text_lines, rebel):
      texts=','.join(f'"{line}"' for line in text_lines)
 
      pip_color_list = ','.join(f'"{color}"' for color in map(str.strip, pip_colors.split(',')))
@@ -42,6 +43,11 @@ def make_stls(rows, cols, name, output_dir, pip_colors, font_size, text_lines):
                     '-D', f'TXT_SIZE={font_size}'
                ]
           
+          if rebel:
+               cmd += [
+                    '-D', 'REBEL=true'
+               ]
+
           cmd += ['badge.scad']
 
           print(' '.join(cmd))

@@ -21,9 +21,13 @@ python generate-badge.py -r 2 -c 2 --pip-colors red,red,blue,blue -o output/othe
 python generate-badge.py -r 2 -c 1 --pip-colors red,blue -o output/other -n badge-rc5-empire -Fs 2.5 "SWCCDC" "2024" "" "" "MIDN"
 
 i=0
-# # Blue teams
+# Blue teams
 for i in {0..8}; do
       python generate-badge.py -r 2 -c 3 --pip-colors blue,DeepSkyBlue,DeepSkyBlue,blue,DeepSkyBlue,DeepSkyBlue -o output/blue$i -n badge-rc5-team$i-coach "SWCCDC" "2024" "" "" "TEAM $i" "COACH"
       python generate-badge.py -r 2 -c 2 --pip-colors blue,DeepSkyBlue,blue,DeepSkyBlue -o output/blue$i -n badge-rc5-team$i-captain "SWCCDC" "2024" "" "" "TEAM $i" "CAPTAIN"
       python generate-badge.py -r 1 -c 2 --pip-colors DeepSkyBlue -o output/blue$i -n badge-rc5-team$i "SWCCDC" "2024" "" "TEAM $i"
 done;
+
+# Red team
+python generate-badge.py -r 2 -c 3 --pip-colors red -o output/redteam --rebel -n red-leader -Fs 6 "SWCCDC" "2024" "" "" "RED" "LEADER"
+python generate-badge.py -r 1 -c 2 --pip-colors red -o output/redteam --rebel -n red-team -Fs 4 "SWCCDC" "2024" "" "RED" "TEAM"
