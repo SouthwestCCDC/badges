@@ -14,7 +14,7 @@ BADGE_T=4;
 BADGE_W=45;
 BADGE_H=45;
 
-LAN_W = 14;
+LAN_W = 4;
 LAN_H = 3;
 LAN_T = 2.5;
 
