@@ -17,7 +17,7 @@ python generate-badge.py --name=badge --role=orangeteam --color-top=red --color-
 # python generate-badge.py --name=badge --role=orangeteam-lead --color-top=red --color-bottom=white --color-inset=black --color-button=white --color-text=black --color-badge=orange --ball-text='' 'SWCCDC' '2025' ' ' 'ORANGE' 'TEAM LEAD'
 
 # Gold team
-python generate-badge.py --name=badge --role=goldteam --color-top=red --color-bottom=white --color-inset=black --color-button=white --color-text=yellow --color-badge=yellow --ball-text=G 'SWCCDC' '2025' ' ' 'GOLD' 'TEAM'
+python generate-badge.py --name=badge --role=goldteam --color-top=red --color-bottom=white --color-inset=black --color-button=white --color-text=yellow --color-badge=yellow --ball-text=G --omit-clip 'SWCCDC' '2025' ' ' 'GOLD' 'TEAM'
 
 # Observer
 python generate-badge.py --name=badge --role=guest --color-top=green --color-bottom=white --color-inset=black --color-button=green --color-text=white --color-badge=green --ball-text=GUEST --ball-text-size=6 --omit-clip 'SWCCDC' '2025' ' ' 'GUEST'
